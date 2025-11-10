@@ -3,5 +3,11 @@ name = "rlbind"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = []
+requires-python = "==3.11.13"
+dependencies = [
+  "colabdesign>=1.1.1",
+  "jax>=0.8.0",
+  "numpy>=2.3.4",
+  "pyrosetta-installer>=0.1.2",
+  "scipy>=1.16.3",
+]
