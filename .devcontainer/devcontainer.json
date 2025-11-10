@@ -1,0 +1,17 @@
+{
+  "build": {
+    "dockerfile":"../Dockerfile",
+    "target":"dev"
+  },
+  "remoteUser":"devuser",
+  "features": {
+    "ghcr.io/va-h/devcontainers-features/uv:1": {},
+    "ghcr.io/devcontainers-extra/features/neovim-apt-get:1": {},
+    "ghcr.io/devcontainers-extra/features/starship:1":{}
+  },
+  "mounts": [
+    "type=bind,source=${localEnv:HOME}/.config,target=/home/devuser/.config",
+    "type=bind,source=${localEnv:HOME}/.bashrc,target=/home/devuser/.bashrc",
+    "type=bind,source=${localEnv:HOME}/.ssh,target=/home/devuser/.ssh"
+  ]
+}
