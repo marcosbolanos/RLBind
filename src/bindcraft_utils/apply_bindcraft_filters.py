@@ -1,10 +1,12 @@
 import sys
 import os
 
-_bindcraft_dir = os.path.join(os.path.dirname(__file__), "../../bindcraft")
-_bindcraft_dir = os.path.abspath(_bindcraft_dir)
+# Get the absolute path to bindcraft directory
+# __file__ is the current script location
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_bindcraft_dir = os.path.abspath(os.path.join(_current_dir, "../../bindcraft"))
 
-# Add bindcraft to path
+# Add bindcraft to path BEFORE any imports from it
 if _bindcraft_dir not in sys.path:
     sys.path.insert(0, _bindcraft_dir)
 
