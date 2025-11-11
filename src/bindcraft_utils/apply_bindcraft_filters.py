@@ -1,4 +1,9 @@
 import sys
+
+_bindcraft_dir = "../../bindcraft"
+
+sys.path.append(_bindcraft_dir)
+
 import os
 
 from bindcraft.functions.colabdesign_utils import predict_binder_complex
@@ -8,10 +13,6 @@ from bindcraft.functions.generic_utils import (
     load_af2_models,
 )
 from colabdesign import mk_afdesign_model
-
-_bindcraft_dir = "../../bindcraft"
-
-sys.path.append(_bindcraft_dir)
 
 ### load settings from JSON
 # We're setting up the default settings here as recommended on the bindcraft readme
