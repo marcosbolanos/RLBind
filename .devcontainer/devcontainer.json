@@ -5,8 +5,6 @@
   },
   "remoteUser":"devuser",
   "features": {
-    "ghcr.io/va-h/devcontainers-features/uv:1": {},
-    "ghcr.io/devcontainers-extra/features/neovim-apt-get:1": {},
     "ghcr.io/devcontainers-extra/features/starship:1":{}
   },
   "mounts": [

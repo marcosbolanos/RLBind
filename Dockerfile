@@ -3,12 +3,12 @@ FROM nvidia/cuda:12.4.1-base-ubuntu22.04 AS base
 # Instal uv for containers
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
+# Add a non-root user
 RUN <<EOT 
 groupadd devuser 
 useradd -m -d /home/devuser -g devuser devuser
 EOT
 
-USER devuser
 WORKDIR /home/devuser
 
 # Set uv to use the global python installation, among other things
@@ -18,40 +18,34 @@ ENV UV_LINK_MODE=copy \
   UV_PYTHON=python3.11.13 \
   UV_PROJECT_ENVIRONMENT=/home/devuser/venv
 
-# Pyrosetta installation, this is the longest step
-# Install into the project environment that will be used later
-RUN uv venv $UV_PROJECT_ENVIRONMENT --python $UV_PYTHON && \
-  uv pip install --python $UV_PROJECT_ENVIRONMENT/bin/python pip pyrosetta-installer==0.1.2 && \
-  PATH="$UV_PROJECT_ENVIRONMENT/bin:$PATH" $UV_PROJECT_ENVIRONMENT/bin/python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
-
-
-
-FROM base AS build
-
-USER devuser
-WORKDIR /app
-
 COPY pyproject.toml uv.lock ./
-RUN --mount=type=cache,target=/home/devuser/.cache/uv \
+RUN --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
   uv sync \
   --locked \
-  --no-dev \
   --no-install-project
 
+# Pyrosetta installation, this is the longest step
+# Install into the project environment that will be used later
+RUN uv pip install pip pyrosetta-installer==0.1.2 && \
+  uv run python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
 
 
-FROM build as dev
 
-# I can later add dev-only code here, this part still serves as an alias
+FROM base as dev
+
+USER devuser
+
+ENV UV_PROJECT_ENVIRONMENT=/home/devuser/venv
+
+COPY --from=base ${UV_PROJECT_ENVIRONMENT} ${UV_PROJECT_ENVIRONMENT}
 
 
 
 FROM base AS prod
 
 USER devuser
-WORKDIR /app
 
-COPY --from=build  ${UV_PROJECT_ENVIRONMENT} ${UV_PROJECT_ENVIRONMENT}
+COPY --from=dev ${UV_PROJECT_ENVIRONMENT} ${UV_PROJECT_ENVIRONMENT}
 
 COPY . .
 

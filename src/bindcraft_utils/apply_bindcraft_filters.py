@@ -69,6 +69,6 @@ def apply_bindcraft_filters(sequence: str) -> bool:
 
 
 if __name__ == "__main__":
-    sequence = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ"
+    sequence = "MADEVRLRQLKELGKVGVVEAATGQYDLIRRLLKETGYTLVPTKDKVVEAAEAGLKVYGRLVTN"
     pass_filters = apply_bindcraft_filters(sequence)
     print(pass_filters)
