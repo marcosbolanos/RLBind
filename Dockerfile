@@ -9,6 +9,7 @@ groupadd devuser
 useradd -m -d /home/devuser -g devuser devuser
 EOT
 
+USER devuser
 WORKDIR /home/devuser
 
 # Set uv to use the global python installation, among other things
@@ -20,22 +21,21 @@ ENV UV_LINK_MODE=copy \
 
 COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
-  uv sync \
+  uv venv $UV_PROJECT_ENVIRONMENT \
+  && uv sync \
   --locked \
   --no-install-project
 
-# Pyrosetta installation, this is the longest step
-# Install into the project environment that will be used later
-RUN uv pip install pip pyrosetta-installer==0.1.2 && \
-  uv run python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
+## Pyrosetta installation, this is the longest step
+## Install into the project environment that will be used later
+#RUN uv pip install pip pyrosetta-installer==0.1.2 && \
+#  uv run python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
 
 
 
 FROM base as dev
 
 USER devuser
-
-ENV UV_PROJECT_ENVIRONMENT=/home/devuser/venv
 
 COPY --from=base ${UV_PROJECT_ENVIRONMENT} ${UV_PROJECT_ENVIRONMENT}
 
