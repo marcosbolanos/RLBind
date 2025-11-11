@@ -1,8 +1,6 @@
 import sys
 import os
 
-sys.path.append("../../bindcraft")
-
 from bindcraft.functions.colabdesign_utils import predict_binder_complex
 from bindcraft.functions.generic_utils import (
     load_json_settings,
@@ -11,11 +9,15 @@ from bindcraft.functions.generic_utils import (
 )
 from colabdesign import mk_afdesign_model
 
+_bindcraft_dir = "../../bindcraft"
+
 ### load settings from JSON
 # We're setting up the default settings here as recommended on the bindcraft readme
-settings_path = "../../bindcraft/settings_target/PDL1.json"
-filters_path = "../../bindcraft/settings_filters/default_filters.json"
-advanced_path = "../../bindcraft/settings_advanced/default_4stage_multimer.json"
+settings_path = os.path.join(_bindcraft_dir, "settings_target", "PDL1.json")
+filters_path = os.path.join(_bindcraft_dir, "settings_filters", "default_filters.json")
+advanced_path = os.path.join(
+    _bindcraft_dir, "settings_advanced", "default_4stage_multimer.json"
+)
 target_settings, advanced_settings, filters = load_json_settings(
     settings_path, filters_path, advanced_path
 )
