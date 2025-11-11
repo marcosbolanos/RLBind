@@ -11,6 +11,8 @@ from colabdesign import mk_afdesign_model
 
 _bindcraft_dir = "../../bindcraft"
 
+sys.path.append(_bindcraft_dir)
+
 ### load settings from JSON
 # We're setting up the default settings here as recommended on the bindcraft readme
 settings_path = os.path.join(_bindcraft_dir, "settings_target", "PDL1.json")
