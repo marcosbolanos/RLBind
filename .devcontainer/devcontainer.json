@@ -3,23 +3,18 @@
     "dockerfile":"../Dockerfile",
     "target":"dev"
   },
-  "remoteEnv": {
-    "UV_PYTHON":"3.12.12",
-    "VIRTUAL_ENV": "/home/devuser/venv",
-    "UV_LINK_MODE": "copy",
-    "UV_COMPILE_BYTECODE":"1",
-    "UV_PROJECT_ENVIRONMENT":"/home/devuser/venv",
-    "PATH": "/home/devuser/venv/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-  },
   "remoteUser":"devuser",
   "updateRemoteUserUID": false,
   "features": {
-    "ghcr.io/devcontainers-extra/features/starship:1":{}
+    "ghcr.io/devcontainers-extra/features/starship:1":{},
+    "ghcr.io/duduribeiro/devcontainer-features/neovim:1": {
+      "version": "stable"
+    }
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/RLBind,type=bind",
   "workspaceFolder": "/workspaces/RLBind",
   "mounts": [
-    "type=bind,source=${localEnv:HOME}/.config/nvim,target=/home/devuser/.config/nvim,readonly",
+    "type=bind,source=${localEnv:HOME}/.config/nvim,target=/home/devuser/.config/nvim",
     "type=bind,source=${localEnv:HOME}/.config/starship.toml,target=/home/devuser/.config/starship.toml,readonly",
     "type=bind,source=${localEnv:HOME}/.ssh,target=/home/devuser/.ssh,readonly"
   ],

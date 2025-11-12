@@ -32,6 +32,13 @@ ENV UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV
 RUN uv venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+# Install PyRosetta first (large download, cache separately)
+# Note: pyrosetta_installer uses pip internally, so we cache pip's directory
+RUN --mount=type=cache,target=/home/devuser/.cache/pip,uid=1000,gid=1000 \
+  --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
+  uv pip install pyrosetta-installer==0.1.2 && \
+  python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
+
 COPY --chown=1000:1000 pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
   uv sync \

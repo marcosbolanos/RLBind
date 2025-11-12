@@ -51,17 +51,17 @@ design_model, prediction_models, multimer_validation = load_af2_models(
 def apply_bindcraft_filters(sequence: str, trajectory_pdb_path: str = None) -> bool:
     """
     Apply BindCraft filters to a given sequence.
-    
+
     Args:
         sequence: The amino acid sequence to validate
         trajectory_pdb_path: Optional path to trajectory PDB for initial guess/bigbang mode
-    
+
     Returns:
         True if sequence passes all filters, False otherwise
     """
     # Calculate sequence length
     binder_length = len(sequence)
-    
+
     # Create the complex prediction model
     complex_prediction_model = mk_afdesign_model(
         protocol="binder",
@@ -71,11 +71,16 @@ def apply_bindcraft_filters(sequence: str, trajectory_pdb_path: str = None) -> b
         use_initial_guess=advanced_settings["predict_initial_guess"],
         use_initial_atom_pos=advanced_settings["predict_bigbang"],
     )
-    
+
     # Prepare model inputs based on settings
-    if (advanced_settings["predict_initial_guess"] or advanced_settings["predict_bigbang"]):
+    if (
+        advanced_settings["predict_initial_guess"]
+        or advanced_settings["predict_bigbang"]
+    ):
         if trajectory_pdb_path is None:
-            raise ValueError("trajectory_pdb_path is required when using initial_guess or bigbang mode")
+            raise ValueError(
+                "trajectory_pdb_path is required when using initial_guess or bigbang mode"
+            )
         complex_prediction_model.prep_inputs(
             pdb_filename=trajectory_pdb_path,
             chain="A",
@@ -110,7 +115,7 @@ def apply_bindcraft_filters(sequence: str, trajectory_pdb_path: str = None) -> b
         design_paths,
         failure_csv,
     )
-    
+
     return pass_af2_filters
 
 
