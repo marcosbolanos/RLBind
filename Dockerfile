@@ -26,11 +26,11 @@ FROM base AS dev
 USER devuser
 
 WORKDIR /home/devuser
-ENV VIRTUAL_ENV=/home/devuser/venv \
-  UV_PROJECT_ENVIRONMENT=/home/devuser/venv
+ENV VIRTUAL_ENV=/home/devuser/venv
+ENV UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV
 
 RUN uv venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 COPY --chown=1000:1000 pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
@@ -46,7 +46,7 @@ FROM dev AS prod
 USER devuser
 WORKDIR /app
 
-COPY --from=build  ${UV_PROJECT_ENVIRONMENT} ${UV_PROJECT_ENVIRONMENT}
+COPY --from=dev ${UV_PROJECT_ENVIRONMENT} ${UV_PROJECT_ENVIRONMENT}
 
 COPY . .
 
