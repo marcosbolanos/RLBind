@@ -1,4 +1,5 @@
 import sys
+import os
 
 # Get the absolute path to bindcraft directory
 # __file__ is the current script location
@@ -9,7 +10,6 @@ _bindcraft_dir = os.path.abspath(os.path.join(_current_dir, "../../bindcraft"))
 if _bindcraft_dir not in sys.path:
     sys.path.insert(0, _bindcraft_dir)
 
-import os
 import pyrosetta
 
 # Import directly from the function modules to avoid triggering bindcraft.py execution
