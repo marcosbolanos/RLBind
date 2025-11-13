@@ -1,5 +1,4 @@
 import sys
-import os
 
 # Get the absolute path to bindcraft directory
 # __file__ is the current script location
@@ -9,6 +8,9 @@ _bindcraft_dir = os.path.abspath(os.path.join(_current_dir, "../../bindcraft"))
 # Add bindcraft to path BEFORE any imports from it
 if _bindcraft_dir not in sys.path:
     sys.path.insert(0, _bindcraft_dir)
+
+import os
+import pyrosetta
 
 # Import directly from the function modules to avoid triggering bindcraft.py execution
 from functions.colabdesign_utils import predict_binder_complex
@@ -48,7 +50,9 @@ design_model, prediction_models, multimer_validation = load_af2_models(
 )
 
 
-def apply_bindcraft_filters(sequence: str, trajectory_pdb_path: str = None) -> bool:
+def apply_bindcraft_filters(
+    sequence: str, trajectory_pdb_path: str | None = None
+) -> bool:
     """
     Apply BindCraft filters to a given sequence.
 
@@ -120,6 +124,7 @@ def apply_bindcraft_filters(sequence: str, trajectory_pdb_path: str = None) -> b
 
 
 if __name__ == "__main__":
+    pyrosetta.rosetta.core.init.init()
     sequence = "MADEVRLRQLKELGKVGVVEAATGQYDLIRRLLKETGYTLVPTKDKVVEAAEAGLKVYGRLVTN"
     pass_filters = apply_bindcraft_filters(sequence)
     print(pass_filters)
