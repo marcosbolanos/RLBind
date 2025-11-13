@@ -10,7 +10,7 @@ _bindcraft_dir = os.path.abspath(os.path.join(_current_dir, "../../bindcraft"))
 if _bindcraft_dir not in sys.path:
     sys.path.insert(0, _bindcraft_dir)
 
-import pyrosetta
+import pyrosetta as pr
 
 # Import directly from the function modules to avoid triggering bindcraft.py execution
 from functions.colabdesign_utils import predict_binder_complex
@@ -124,7 +124,9 @@ def apply_bindcraft_filters(
 
 
 if __name__ == "__main__":
-    pyrosetta.rosetta.core.init.init()
+    pr.init(
+        f"-ignore_unrecognized_res -ignore_zero_occupancy -mute all -holes:dalphaball {advanced_settings['dalphaball_path']} -corrections::beta_nov16 true -relax:default_repeats 1"
+    )
     sequence = "MADEVRLRQLKELGKVGVVEAATGQYDLIRRLLKETGYTLVPTKDKVVEAAEAGLKVYGRLVTN"
     pass_filters = apply_bindcraft_filters(sequence)
     print(pass_filters)
