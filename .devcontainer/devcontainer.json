@@ -5,6 +5,9 @@
   },
   "remoteUser":"devuser",
   "updateRemoteUserUID": false,
+  "remoteEnv": {
+    "PATH": "${containerEnv:HOME}/.local/share/nvim/mason/bin:${containerEnv:PATH}"
+  },
   "features": {
     "ghcr.io/devcontainers-extra/features/starship:1":{},
     "ghcr.io/duduribeiro/devcontainer-features/neovim:1": {
@@ -15,8 +18,9 @@
   "workspaceFolder": "/workspaces/RLBind",
   "mounts": [
     "type=bind,source=${localEnv:HOME}/.config/nvim,target=/home/devuser/.config/nvim",
+    "type=bind,source=${localEnv:HOME}/.local/share/nvim/mason,target=/home/devuser/.local/share/nvim/mason",
     "type=bind,source=${localEnv:HOME}/.config/starship.toml,target=/home/devuser/.config/starship.toml,readonly",
     "type=bind,source=${localEnv:HOME}/.ssh,target=/home/devuser/.ssh,readonly"
   ],
-  "postCreateCommand":"echo 'eval $(starship init bash)' >> ~/.bashrc"
+  "postCreateCommand":"echo 'eval $(starship init bash)' >> ~/.bashrc && echo 'export PATH=\"$HOME/.local/share/nvim/mason/bin:$PATH\"' >> ~/.bashrc"
 }

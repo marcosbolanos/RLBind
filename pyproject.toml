@@ -12,3 +12,8 @@ dependencies = [
   "pyrosetta-installer>=0.1.2",
   "scipy>=1.16.3",
 ]
+
+[tool.uv.workspace]
+members = [
+    "bindcraft",
+]

@@ -36,7 +36,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Note: pyrosetta_installer uses pip internally, so we cache pip's directory
 RUN --mount=type=cache,target=/home/devuser/.cache/pip,uid=1000,gid=1000 \
   --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
-  uv pip install pyrosetta-installer==0.1.2 && \
+  uv pip install pip pyrosetta-installer==0.1.2 && \
   python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
 
 COPY --chown=1000:1000 pyproject.toml uv.lock ./
