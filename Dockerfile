@@ -14,14 +14,12 @@ ENV UV_LINK_MODE=copy \
   UV_COMPILE_BYTECODE=1 \
   UV_PYTHON=python3.12.12
 
-## Pyrosetta installation, this is the longest step
-## Install into the project environment that will be used later
-#RUN uv pip install pip pyrosetta-installer==0.1.2 && \
-#  uv run python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
+RUN apt-get update && \
+  apt-get install -y git
 
 
 
-FROM base AS dev
+FROM base AS build
 
 USER devuser
 
@@ -32,23 +30,33 @@ ENV UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV
 RUN uv venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Install PyRosetta first (large download, cache separately)
+COPY --chown=1000:1000 pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
+  uv sync \
+  --no-dev \
+  --no-install-project
+
 # Note: pyrosetta_installer uses pip internally, so we cache pip's directory
 RUN --mount=type=cache,target=/home/devuser/.cache/pip,uid=1000,gid=1000 \
   --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
   uv pip install pip pyrosetta-installer==0.1.2 && \
   python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
 
-COPY --chown=1000:1000 pyproject.toml uv.lock ./
-RUN --mount=type=cache,target=/home/devuser/.cache/uv,uid=1000,gid=1000 \
-  uv sync \
-  --locked \
-  --no-dev \
-  --no-install-project
+
+
+FROM build as dev
+
+USER devuser
+
+WORKDIR /home/devuser
+
+COPY --from=build /home/devuser/venv ./venv
 
 
 
-FROM dev AS prod
+
+
+FROM build AS prod
 
 USER devuser
 WORKDIR /app

@@ -20,7 +20,8 @@
     "type=bind,source=${localEnv:HOME}/.config/nvim,target=/home/devuser/.config/nvim",
     "type=bind,source=${localEnv:HOME}/.local/share/nvim/mason,target=/home/devuser/.local/share/nvim/mason",
     "type=bind,source=${localEnv:HOME}/.config/starship.toml,target=/home/devuser/.config/starship.toml,readonly",
-    "type=bind,source=${localEnv:HOME}/.ssh,target=/home/devuser/.ssh,readonly"
+    "type=bind,source=${localEnv:HOME}/.ssh,target=/home/devuser/.ssh,readonly",
+    "type=bind,source=${localEnv:HOME}/.gitconfig,target=/home/devuser/.gitconfig,readonly"
   ],
-  "postCreateCommand":"echo 'eval $(starship init bash)' >> ~/.bashrc && echo 'export PATH=\"$HOME/.local/share/nvim/mason/bin:$PATH\"' >> ~/.bashrc"
+  "postCreateCommand":"echo 'eval $(starship init bash)' >> home/devuser/.bashrc && echo 'export PATH=\"$HOME/.local/share/nvim/mason/bin:$PATH\"' >> /home/devuser/.bashrc && echo 'eval $(ssh-agent)' >> /home/devuser/.bashrc && ssh-add"
 }

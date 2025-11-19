@@ -12,7 +12,11 @@ from bindcraft.functions.generic_utils import (
 from colabdesign import mk_afdesign_model
 
 # Import schemas
-from schemas.bindcraft.settings import TargetSettings, AdvancedSettings, FilterSettings
+from src.schemas.bindcraft.settings import (
+    TargetSettings,
+    AdvancedSettings,
+    FilterSettings,
+)
 
 
 class BindCraftFiltersForTarget:
@@ -125,6 +129,8 @@ class BindCraftFiltersForTarget:
 
 if __name__ == "__main__":
     import json
+
+    _bindcraft_dir = "./bindcraft"
 
     ### load settings from JSON using BaseModels
     # We're setting up the default settings here as recommended on the bindcraft readme

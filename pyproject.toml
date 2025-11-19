@@ -5,15 +5,14 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-  "colabdesign>=1.1.1",
-  "jax==0.4.24",
+  "colabdesign @ https://github.com/sokrypton/ColabDesign.git",
+  "jax>=0.7.2",
   "numpy>=2.3.4",
   "pip>=25.3",
+  "pydantic>=2.12.4",
   "pyrosetta-installer>=0.1.2",
   "scipy>=1.16.3",
 ]
 
 [tool.uv.workspace]
-members = [
-    "bindcraft",
-]
+members = ["bindcraft"]
