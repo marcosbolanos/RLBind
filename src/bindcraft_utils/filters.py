@@ -1,22 +1,20 @@
-import sys
 import os
+from pathlib import Path
 
 import pyrosetta as pr
+from colabdesign import mk_afdesign_model
 
-# Import directly from the function modules to avoid triggering bindcraft.py execution
 from bindcraft.functions.colabdesign_utils import predict_binder_complex
 from bindcraft.functions.generic_utils import (
     generate_directories,
     load_af2_models,
 )
-from colabdesign import mk_afdesign_model
-
-# Import schemas
 from src.schemas.bindcraft.settings import (
     TargetSettings,
     AdvancedSettings,
     FilterSettings,
 )
+from src import PROJECT_ROOT
 
 
 class BindCraftFiltersForTarget:
@@ -130,11 +128,11 @@ class BindCraftFiltersForTarget:
 if __name__ == "__main__":
     import json
 
-    _bindcraft_dir = "./bindcraft"
+    _bindcraft_dir: Path = PROJECT_ROOT / "bindcraft"
 
     ### load settings from JSON using BaseModels
     # We're setting up the default settings here as recommended on the bindcraft readme
-    settings_path = os.path.join(_bindcraft_dir, "settings_target/PDL1.json")
+    settings_path = Path(_bindcraft_dir, "settings_target/PDL1.json")
 
     # Load JSON and create BaseModel instances
     with open(settings_path) as f:

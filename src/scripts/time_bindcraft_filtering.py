@@ -14,6 +14,7 @@ from src.schemas.bindcraft.settings import (
     TargetSettings,
 )
 from src.general_utils.timer import Timer, time_for_filename
+from src import PROJECT_ROOT
 
 
 # This object will store the results of our test
@@ -28,15 +29,20 @@ class FilterTimingObject(BaseModel):
 
 
 if __name__ == "__main__":
-    out_path = Path("../", "data/processed/")
-    _filename_time = time_for_filename()
+    filename_time = time_for_filename()
+    filename = "bc_filter_timed_" + filename_time + ".csv"
+
+    out_folder: Path = PROJECT_ROOT / "data" / "processed"
+    out_file: Path = out_folder / filename
 
     _min_len = 40
     _max_len = 100
     _n_repeats = 10
 
     random.seed(69)
-    _target_json_path = Path("../", "bindcraft", "settings_target", "PDL1.json")
+    _target_json_path: Path = (
+        PROJECT_ROOT / "bindcraft" / "settings_target" / "PDL1.json"
+    )
     with open(_target_json_path, "r") as f:
         target_json = json.load(f)
     target_settings = TargetSettings(**target_json)
@@ -77,7 +83,7 @@ if __name__ == "__main__":
 
     results_df = pl.DataFrame(results)
     try:
-        results_df.write_csv(out_path)
+        results_df.write_csv(out_file)
     except Exception as e:
         print(f"Couldn't write to path: {e}")
         results_df.write_csv()
