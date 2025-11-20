@@ -100,8 +100,8 @@ class BindCraftFiltersForTarget:
         Args:
             complex_prediction_model: The prepared AF2 model
             sequence: The amino acid sequence to validate
-
         Returns:
+
             True if sequence passes all filters, False otherwise
         """
         # Convert BaseModels to dictionaries for compatibility with bindcraft functions
