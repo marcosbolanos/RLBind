@@ -53,26 +53,35 @@ if __name__ == "__main__":
     )
     # List of ints from _min_len to _max_len at interval 10
     lengths = range(_min_len, _max_len + 1, 10)
+    n_lengths = len(lengths)
     # List of results to be turned into a table
     results = []
     for length in lengths:
+        print(f"Length {length}")
         timer = Timer()
         # Initialize the model for the given sequence lenth
         start_load = timer.elapsed()
         model = filters_pipeline.prep_model(length)
         end_load = timer.elapsed()
+        load_time = end_load - start_load
+        print(f"Loading time: {load_time}")
         # Make n predictions for n random sequences of the same length
         for i in range(1, _n_repeats + 1):
+            print(
+                f"Sequence {i}/{n_lengths} of length {length} ({lengths[0]} to {lengths[-1]})"
+            )
             result = FilterTimingObject()
             sequence = random_aa_sequence(length)
             filter_start = timer.elapsed()
             pass_filters = filters_pipeline.run(model, sequence)
             filter_end = timer.elapsed()
+            filter_time = filter_end - filter_start
+            print(f"Filtering time: {filter_time}")
             # Write our result object
             result.sequence = sequence
             result.length = length
-            result.load_time = end_load - start_load
-            result.filter_time = filter_end - filter_start
+            result.load_time = load_time
+            result.filter_time = filter_time
             result.pass_filters = pass_filters
             # TODO: add timing inside of the function to get more broken-down measurements
             # also, implement all of the filtering steps (pyrosetta + other)
