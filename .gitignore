@@ -1,4 +1,11 @@
 .venv
+
+# This folder can contain scripts to install devtools inside the container
+# It's only for tools like code editors or prompts, that don't affect the environment
+.optional/**
+!.optional/.gitkeep
+
+# Ignore everything inside /data except the folder structure and gitkeeps
 data/**
 !data/**/
 !data/**/.gitkeep
