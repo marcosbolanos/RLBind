@@ -46,13 +46,18 @@ RUN --mount=type=cache,target=/home/devuser/.cache/pip,uid=1000,gid=1000 \
 
 FROM build as dev
 
-USER devuser
-
 WORKDIR /home/devuser
 
 COPY --from=build /home/devuser/venv ./venv
 
+# Optionally install dev tools, defined on a local file
+COPY --chown=1000:1000 .optional .optional
+RUN if [ -f .optional/dev-setup.sh ]; then \
+  echo 'Installing dev tools...'; \
+  bash .optional/dev-setup.sh || echo 'Dev tools installation failed, continuing...'; \
+  fi
 
+USER devuser
 
 
 
