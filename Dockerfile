@@ -46,6 +46,8 @@ RUN --mount=type=cache,target=/home/devuser/.cache/pip,uid=1000,gid=1000 \
 
 FROM build as dev
 
+USER root
+
 WORKDIR /home/devuser
 
 COPY --from=build /home/devuser/venv ./venv
