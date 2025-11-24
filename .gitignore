@@ -5,6 +5,9 @@
 .optional/**
 !.optional/.gitkeep
 
+# This folder also contains user-specified settings
+.devcontainer
+
 # Ignore everything inside /data except the folder structure and gitkeeps
 data/**
 !data/**/
