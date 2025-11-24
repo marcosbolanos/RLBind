@@ -1,4 +1,6 @@
 .venv
+.devcontainer
+
 data/**
 !data/**/
 !data/**/.gitkeep
