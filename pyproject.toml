@@ -11,11 +11,14 @@ dependencies = [
   "numpy>=2.3.4",
   "pip>=25.3",
   "polars>=1.35.2",
+  "protobuf>=6.33.5",
   "pydantic>=2.12.4",
   "pyrosetta-installer>=0.1.2",
   "requests>=2.32.5",
   "scipy>=1.16.3",
   "tdqm>=0.0.1",
+  "torch>=2.10.0",
+  "transformers>=5.0.0",
   "umap-learn>=0.5.11",
 ]
 
