@@ -40,7 +40,7 @@ class BindCraftFiltersForTarget:
 
     def prep_model(
         self, sequence_length: int, trajectory_pdb_path: str | None = None
-    ) -> bool:
+    ) -> mk_afdesign_model:
         """
         Apply BindCraft filters to a given sequence.
 
