@@ -1,3 +1,6 @@
 [submodule "bindcraft"]
 	path = bindcraft
 	url = git@github.com:marcosbolanos/BindCraft
+[submodule "boltzgen-fork"]
+	path = boltzgen-fork
+	url = https://github.com/marcosbolanos/boltzgen.git
