@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "colabdesign @ https://github.com/sokrypton/ColabDesign.git",
+  "esm==3.2.3",
   "jax>=0.7.2",
   "matplotlib>=3.10.7",
   "numpy>=2.3.4",
@@ -18,7 +19,7 @@ dependencies = [
   "scipy>=1.16.3",
   "tdqm>=0.0.1",
   "torch>=2.10.0",
-  "transformers>=5.0.0",
+  "transformers<4.48.2",
   "umap-learn>=0.5.11",
 ]
 
