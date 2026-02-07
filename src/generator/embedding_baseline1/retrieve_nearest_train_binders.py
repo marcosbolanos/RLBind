@@ -17,6 +17,9 @@ from src.data_utils.lppdbb.artifacts import (
     validate_index_rows,
 )
 from src.data_utils.lppdbb.records import DEFAULT_CSV_PATH
+from src.generator.embedding_baseline1.generate_boltz_yaml import (
+    write_boltz_yaml_for_row,
+)
 
 DEFAULT_EMBEDDING_ROOT = PROJECT_ROOT / "data" / "interim" / "lppdbb" / "embeddings"
 DEFAULT_SPLIT_PATH = (
@@ -282,6 +285,12 @@ def _parse_args() -> argparse.Namespace:
         help="Output CSV filename.",
     )
     parser.add_argument(
+        "--yaml-output-dir",
+        type=Path,
+        default=None,
+        help="Output directory for Boltz YAML inputs.",
+    )
+    parser.add_argument(
         "--match-by",
         choices=("complex_id", "row_idx"),
         default="complex_id",
@@ -410,6 +419,29 @@ def main() -> None:
         )
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    yaml_output_dir = args.yaml_output_dir
+    if yaml_output_dir is None:
+        yaml_output_dir = args.output_dir / "boltz_inputs"
+    yaml_output_dir.mkdir(parents=True, exist_ok=True)
+
+    yaml_counts: dict[str, int] = {}
+    for row in results:
+        yaml_path, status = write_boltz_yaml_for_row(
+            row,
+            output_dir=yaml_output_dir,
+            overwrite=True,
+            include_affinity=True,
+        )
+        yaml_counts[status] = yaml_counts.get(status, 0) + 1
+        if yaml_path is None:
+            row["yaml_path"] = ""
+        else:
+            try:
+                row["yaml_path"] = str(yaml_path.relative_to(args.output_dir))
+            except ValueError:
+                row["yaml_path"] = str(yaml_path)
+        row["yaml_status"] = status
+
     output_path = args.output_dir / args.output_name
     with output_path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
@@ -423,6 +455,8 @@ def main() -> None:
                 "nearest_train_smiles",
                 "nearest_train_seq",
                 "embedding_similarity",
+                "yaml_path",
+                "yaml_status",
             ],
         )
         writer.writeheader()
@@ -434,6 +468,14 @@ def main() -> None:
         f"missing_embeddings: {missing_embeddings}, duplicates: {duplicates}, "
         f"output: {output_path}"
     )
+    if yaml_counts:
+        yaml_summary = ", ".join(
+            f"{key}: {value}" for key, value in sorted(yaml_counts.items())
+        )
+        print(
+            "Generated Boltz YAML inputs. "
+            f"output_dir: {yaml_output_dir}, status: {yaml_summary}"
+        )
     print(
         "Embedding skips. "
         f"train_missing: {train_skips['missing']}, train_empty: {train_skips['empty']}, "
