@@ -1,0 +1,129 @@
+Checking input data.
+All inputs are already processed.
+Processing 0 inputs with 0 threads.
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+Using bfloat16 Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/connectors/logger_connector/logger_connector.py:76: Starting from v1.9.0, `tensorboardX` has been removed as a dependency of the `pytorch_lightning` package, due to potential conflicts with other packages in the ML ecosystem. For this reason, `logger=True` will use `CSVLogger` as the default logger, unless the `tensorboard` or `tensorboardX` packages are found. Please `pip install lightning[extra]` or one of them to enable TensorBoard support by default
+Running structure prediction for 1 input.
+/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/utilities/migration/utils.py:56: The loaded checkpoint was produced with Lightning v2.5.0.post0, which is newer than your current Lightning version: v2.5.0
+You are using a CUDA device ('NVIDIA RTX A6000') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+Predicting: |          | 0/? [00:00<?, ?it/s]Predicting:   0%|          | 0/1 [00:00<?, ?it/s]Predicting DataLoader 0:   0%|          | 0/1 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/bin/boltz", line 10, in <module>
+    sys.exit(cli())
+             ^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/main.py", line 1329, in predict
+    trainer.predict(
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 859, in predict
+    return call._call_and_handle_interrupt(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 898, in _predict_impl
+    results = self._run(model, ckpt_path=ckpt_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 982, in _run
+    results = self._run_stage()
+              ^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 1021, in _run_stage
+    return self.predict_loop.run()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/loops/prediction_loop.py", line 125, in run
+    self._predict_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/loops/prediction_loop.py", line 255, in _predict_step
+    predictions = call._call_strategy_hook(trainer, "predict_step", *step_args)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/trainer/call.py", line 323, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/pytorch_lightning/strategies/strategy.py", line 438, in predict_step
+    return self.lightning_module.predict_step(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/models/boltz2.py", line 1059, in predict_step
+    out = self(
+          ^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/models/boltz2.py", line 464, in forward
+    z = z + template_module(
+            ^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/modules/trunkv2.py", line 498, in forward
+    v = v + self.pairformer(v, pair_mask, use_kernels=use_kernels)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/layers/pairformer.py", line 329, in forward
+    z = layer(
+        ^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/layers/pairformer.py", line 243, in forward
+    z = z + dropout * self.tri_mul_out(
+                      ^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/layers/triangular_mult.py", line 92, in forward
+    return kernel_triangular_mult(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1181, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/.venv/lib/python3.12/site-packages/boltz/model/layers/triangular_mult.py", line 22, in kernel_triangular_mult
+    from cuequivariance_torch.primitives.triangle import triangle_multiplicative_update
+ModuleNotFoundError: No module named 'cuequivariance_torch'
+Predicting DataLoader 0:   0%|          | 0/1 [00:03<?, ?it/s]Skipping MSA generation; writing YAML with msa: empty
+Wrote YAML to /home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/runs/barnase-barstar-complex/input.yaml
+Running Boltz prediction...
+Traceback (most recent call last):
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/run_boltz_rowan.py", line 168, in <module>
+    run_boltz(name, protein_sequences, msa_mode=msa_mode)
+  File "/home/lamsade/mbolanos/code/RLBind/tools/boltz2_runner/run_boltz_rowan.py", line 156, in run_boltz
+    subprocess.run(cmd, check=True)
+  File "/home/lamsade/mbolanos/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['boltz', 'predict', 'runs/barnase-barstar-complex/input.yaml', '--out_dir', 'runs/barnase-barstar-complex/boltz_out']' returned non-zero exit status 1.
