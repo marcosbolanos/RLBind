@@ -66,9 +66,13 @@ def build_boltz_yaml(
     ligand_smiles: str,
     ligand_id: str = "L",
     include_affinity: bool = True,
+    msa_mode: str = "empty",
 ) -> str:
     if not protein_sequences:
         raise ValueError("At least one protein sequence is required.")
+    msa_mode = msa_mode.strip().lower()
+    if msa_mode not in {"empty", "omit"}:
+        raise ValueError("msa_mode must be one of: 'empty', 'omit'.")
     chain_ids = _chain_ids(len(protein_sequences))
     lines = ["version: 1", "sequences:"]
     for chain_id, sequence in zip(chain_ids, protein_sequences, strict=True):
@@ -79,6 +83,9 @@ def build_boltz_yaml(
                 f"      sequence: {sequence}",
             ]
         )
+        if msa_mode == "empty":
+            # Boltz supports omitting MSAs by setting `msa: empty`.
+            lines.append("      msa: empty")
     lines.extend(
         [
             "  - ligand:",
@@ -103,12 +110,14 @@ def write_boltz_yaml_file(
     protein_sequences: Sequence[str],
     ligand_smiles: str,
     include_affinity: bool = True,
+    msa_mode: str = "empty",
 ) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     yaml_text = build_boltz_yaml(
         protein_sequences,
         ligand_smiles=ligand_smiles,
         include_affinity=include_affinity,
+        msa_mode=msa_mode,
     )
     output_path.write_text(yaml_text, encoding="utf-8")
 
@@ -119,6 +128,7 @@ def write_boltz_yaml_for_row(
     output_dir: Path,
     overwrite: bool = True,
     include_affinity: bool = True,
+    msa_mode: str = "empty",
 ) -> tuple[Path | None, str]:
     test_smiles = str(row.get("test_smiles", "")).strip()
     if not test_smiles:
@@ -150,6 +160,7 @@ def write_boltz_yaml_for_row(
         protein_sequences=protein_sequences,
         ligand_smiles=test_smiles,
         include_affinity=include_affinity,
+        msa_mode=msa_mode,
     )
     return output_path, "ok"
 
@@ -169,6 +180,13 @@ def _parse_args() -> argparse.Namespace:
         type=Path,
         default=DEFAULT_YAML_DIR,
         help="Directory to write YAML inputs.",
+    )
+    parser.add_argument(
+        "--msa-mode",
+        choices=("empty", "omit"),
+        default="empty",
+        help="How to populate protein MSA fields in generated YAML. "
+        "Use 'empty' to write `msa: empty` (default). Use 'omit' to omit the MSA field.",
     )
     parser.add_argument(
         "--overwrite",
@@ -213,6 +231,7 @@ def main() -> None:
             output_dir=args.output_dir,
             overwrite=args.overwrite,
             include_affinity=True,
+            msa_mode=args.msa_mode,
         )
         counts[status] = counts.get(status, 0) + 1
 
